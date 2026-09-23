@@ -14,7 +14,6 @@
           <div class="col-md-6"><label class="form-label" for="sex">Sex *</label><select id="sex" name="sex" class="form-select @error('sex') is-invalid @enderror" required><option value="">Select sex</option><option value="Female" @selected(old('sex') === 'Female')>Female</option><option value="Male" @selected(old('sex') === 'Male')>Male</option></select>@error('sex')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
           <div class="col-md-6"><label class="form-label" for="date_of_birth">Date of birth</label><input id="date_of_birth" name="date_of_birth" type="date" value="{{ old('date_of_birth') }}" max="{{ now()->toDateString() }}" class="form-control @error('date_of_birth') is-invalid @enderror">@error('date_of_birth')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
           <div class="col-md-6"><label class="form-label" for="color">Color / markings</label><input id="color" name="color" value="{{ old('color') }}" class="form-control"></div>
-          <div class="col-md-6"><label class="form-label" for="microchip">Microchip number</label><input id="microchip" name="microchip" value="{{ old('microchip') }}" class="form-control @error('microchip') is-invalid @enderror">@error('microchip')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
           <div class="col-md-6">
             <label class="form-label" for="photo">Pet photo</label>
             <input id="photo" name="photo" type="file" accept="image/png,image/jpeg,image/webp"

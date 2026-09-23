@@ -5,7 +5,10 @@
     <div class="d-flex justify-content-between align-items-center">
       <a href="{{ auth()->user()->canManageRecords() ? url('staff/pets') : url('mypets') }}" class="small text-decoration-none">&larr; Back</a>
       @if (auth()->user()->canManageRecords())
-        <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="bi bi-trash me-1"></i>Delete pet</button>
+        <div class="d-flex flex-wrap gap-2">
+          <a href="{{ route('staff.pets.edit', $pet) }}" class="btn btn-outline-secondary btn-sm">Edit Pet</a>
+          <a href="{{ route('staff.pets.remove', $pet) }}" class="btn btn-outline-danger btn-sm">Remove Pet</a>
+        </div>
       @endif
     </div>
 
@@ -19,7 +22,7 @@
         @endif
         <div class="ms-3">
           <h1 class="h4 mb-0">{{ $pet->name }}</h1>
-          <div class="small text-muted">{{ $pet->code }}</div>
+
         </div>
       </div>
 
@@ -29,7 +32,6 @@
         <div class="col-6 col-md-3"><div class="small text-muted">Sex</div><div>{{ $pet->sex }}</div></div>
         <div class="col-6 col-md-3"><div class="small text-muted">Date of Birth</div><div>{{ $pet->date_of_birth?->format('M d, Y') ?? 'Not specified' }}</div></div>
         <div class="col-6 col-md-3"><div class="small text-muted">Color</div><div>{{ $pet->color ?? 'Not specified' }}</div></div>
-        <div class="col-6 col-md-3"><div class="small text-muted">Microchip</div><div>{{ $pet->microchip ?? 'None' }}</div></div>
       </div>
     </div>
 
@@ -74,25 +76,3 @@
     </div>
   </div>
 @endsection
-
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteModalLabel">Delete {{ $pet->name }}?</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        This will permanently remove <strong>{{ $pet->name }}</strong> ({{ $pet->code }}) and its vaccination and deworming records. This action cannot be undone.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-        <form method="POST" action="/pets/{{ $pet->id }}">
-          @csrf
-          @method('DELETE')
-          <button type="submit" class="btn btn-danger">Yes, delete pet</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>

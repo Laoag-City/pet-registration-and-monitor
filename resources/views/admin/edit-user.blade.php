@@ -11,9 +11,6 @@
     <div class="card card-light p-4 mt-3">
       <h1 class="h5 mb-1">Edit User</h1>
       <p class="text-muted mb-4">Update account information for <strong>{{ $editUser->name }}</strong>. Existing passwords are never displayed.</p>
-      @if (isset($errors) && $errors->any())
-        <div class="alert alert-danger"><div class="fw-semibold mb-1">Please review the form:</div><ul class="mb-0">@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>
-      @endif
       <form method="POST" action="{{ route('admin.users.update', $editUser) }}">
         @csrf
         @method('PUT')

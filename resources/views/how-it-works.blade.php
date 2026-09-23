@@ -12,10 +12,10 @@
             </div>
             <div class="row g-4">
                 @foreach ([
-                        ['01', 'Register', 'Create your account and add your pet\'s basic details and photo.'],
-                        ['02', 'Add Records', 'Fill in vaccinations, deworming, and medical history as they happen.'],
+                        ['01', 'Register', 'Create your account, then ask OCV staff to register your pet\'s details and photo.'],
+                        ['02', 'Add Records', 'OCV staff record vaccinations and deworming treatments for your pets.'],
                         ['03', 'Get Your PawID', 'Generate your pet\'s unique QR code and attach it to their collar tag.'],
-                        ['04', 'Scan & Access', 'Anyone who scans the code instantly sees how to help and who to call.'],
+                        ['04', 'Scan & Access', 'New QR codes show the owner and pet names. Sign in as the owner or authorized staff to access private records.'],
                     ] as $step)
                     <div class="col-12 col-md-6 col-lg-3">
                         <div class="step-item h-100">

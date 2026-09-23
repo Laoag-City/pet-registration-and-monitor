@@ -3,12 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pet;
+use App\Support\PetQrReference;
+use Illuminate\Http\Response;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\View\View;
 use Linkxtr\QrCode\Facades\QrCode;
 
 class QRCodeController extends Controller
 {
+    public function scan(?string $reference = null): Response
+    {
+        try {
+            $pet = $reference ? PetQrReference::resolve($reference) : null;
+        } catch (\Illuminate\Database\QueryException $exception) {
+            report($exception);
+
+            return response()->view('qrcodes.scan-unavailable', [], 503)
+                ->header('Cache-Control', 'no-store')
+                ->header('Referrer-Policy', 'no-referrer')
+                ->header('X-Robots-Tag', 'noindex, nofollow, noarchive');
+        }
+
+        $response = $pet
+            ? response()->view('qrcodes.scan', ['ownerName' => $pet->owner->name, 'petName' => $pet->name])
+            : response()->view('qrcodes.scan-not-found', [], 404);
+
+        return $response->header('Cache-Control', 'no-store')
+            ->header('Referrer-Policy', 'no-referrer')
+            ->header('X-Robots-Tag', 'noindex, nofollow, noarchive');
+    }
+
     public function index(): View
     {
         $user = auth()->user();
@@ -26,11 +50,11 @@ class QRCodeController extends Controller
             ->size(180)
             ->margin(1)
             ->errorCorrection('M')
-            ->generate(url('/pets/'.$pet->id));
+            ->generate(PetQrReference::url($pet));
 
         $pdf = Pdf::loadView('qrcodes.pdf', ['pet' => $pet, 'qrSvg' => $qrSvg]);
 
-        return $pdf->download('pet-credential-'.($pet->code ?? $pet->id).'.pdf');
+        return $pdf->download('pet-credential.pdf');
     }
 
     public function preview(Pet $pet): \Symfony\Component\HttpFoundation\Response
@@ -52,7 +76,7 @@ class QRCodeController extends Controller
             ->size(300)
             ->margin(2)
             ->errorCorrection('M')
-            ->generate(url('/pets/'.$pet->id));
+            ->generate(PetQrReference::url($pet));
 
         $response = response($svg)->header('Content-Type', 'image/svg+xml');
 

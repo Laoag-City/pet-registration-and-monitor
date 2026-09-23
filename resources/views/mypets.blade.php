@@ -9,7 +9,7 @@
     @else
       <div class="row g-3">
         @foreach ($pets as $pet)
-          <div class="col-12 col-md-6 col-lg-4"><a href="/pets/{{ $pet->id }}" class="text-decoration-none text-body"><div class="card card-light p-3 h-100"><div class="d-flex align-items-center"><div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width:48px;height:48px"><i class="bi bi-heart"></i></div><div class="ms-3"><div class="fw-semibold">{{ $pet->name }}</div><div class="small text-muted">{{ $pet->breed ?? 'Not specified' }} · {{ $pet->sex }}</div><div class="small text-muted mt-1">{{ $pet->code }}</div></div></div></div></a></div>
+          <div class="col-12 col-md-6 col-lg-4"><a href="/pets/{{ $pet->id }}" class="text-decoration-none text-body"><div class="card card-light p-3 h-100"><div class="d-flex align-items-center"><div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width:48px;height:48px"><i class="bi bi-heart"></i></div><div class="ms-3"><div class="fw-semibold">{{ $pet->name }}</div><div class="small text-muted">{{ $pet->breed ?? 'Not specified' }} · {{ $pet->sex }}</div></div></div></div></a></div>
         @endforeach
       </div>
     @endif

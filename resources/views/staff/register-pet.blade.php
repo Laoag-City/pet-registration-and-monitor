@@ -62,7 +62,6 @@
             </div>
             <div class="col-md-6"><label class="form-label">Date of birth</label><input name="date_of_birth" type="date" max="{{ now()->toDateString() }}" value="{{ old('date_of_birth') }}" class="form-control"></div>
             <div class="col-md-6"><label class="form-label">Color</label><input name="color" value="{{ old('color') }}" class="form-control"></div>
-            <div class="col-md-6"><label class="form-label">Microchip</label><input name="microchip" value="{{ old('microchip') }}" class="form-control"></div>
             <div class="col-md-6"><label class="form-label">Photo</label><input name="photo" type="file" accept="image/*" class="form-control"></div>
           </div>
           <div class="mt-4"><button class="btn btn-brand" type="submit"><i class="bi bi-check-lg me-1"></i>Register Pet</button></div>

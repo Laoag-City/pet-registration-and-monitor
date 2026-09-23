@@ -10,6 +10,20 @@
       <div class="col-6 col-md-3"><div class="card card-light p-3"><div class="metric-label">Vaccinations Given</div><div class="metric-value mt-1">{{ $vaccinationCount }}</div></div></div>
       <div class="col-6 col-md-3"><div class="card card-light p-3"><div class="metric-label">Deworming Records</div><div class="metric-value mt-1">{{ $dewormingCount }}</div></div></div>
     </div>
+    <section class="card card-light p-4 mb-4">
+      <div class="d-flex flex-wrap justify-content-between gap-2 mb-3"><h2 class="h6 mb-0">Upcoming Pet Care</h2><a href="{{ route('notifications.index') }}" class="small">View Notifications</a></div>
+      <p class="record-meta">Schedules due within 30 days and overdue care.</p>
+      <div class="row g-3">
+        @forelse ($careSchedules as $schedule)
+          <div class="col-12 col-md-6"><div class="border rounded p-3 h-100">
+            <h3 class="h6"><a href="{{ route('pets.show', $schedule['pet']) }}">{{ $schedule['pet']->name }}</a> &middot; {{ ucfirst($schedule['type']) }}</h3>
+            @include('notifications.schedule', ['schedule' => $schedule])
+          </div></div>
+        @empty
+          <p class="text-muted mb-0">No upcoming vaccination or deworming reminders.</p>
+        @endforelse
+      </div>
+    </section>
     <div class="card card-light p-4">
       <h2 class="h6 mb-2">Your Pets</h2>
       @if ($pets->isEmpty())
@@ -29,7 +43,7 @@
                     <div class="ms-3 text-truncate" style="min-width:0">
                       <div class="fw-semibold">{{ $pet->name }}</div>
                       <div class="record-meta">{{ $pet->breed ?? 'Not specified' }} · {{ $pet->sex }}</div>
-                      <div class="record-meta mt-1">{{ $pet->code }}</div>
+
                     </div>
                   </div>
                 </div>

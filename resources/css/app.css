@@ -93,9 +93,11 @@ main {
     box-shadow: var(--paw-shadow-soft);
 }
 
-.brand-mark svg {
-    width: 20px;
-    height: 20px;
+.brand-mark img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
 }
 
 .brand-text {

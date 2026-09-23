@@ -34,12 +34,14 @@ class DashboardController extends Controller
             'petCount' => $pets->count(),
             'vaccinationCount' => Vaccination::whereIn('pet_id', $petIds)->count(),
             'dewormingCount' => DewormingRecord::whereIn('pet_id', $petIds)->count(),
+            'careSchedules' => app(\App\Services\PetCareReminders::class)->schedules($user)
+                ->filter(fn ($schedule) => $schedule['days'] <= 30),
         ]);
     }
 
     private function staffDashboard(User $user): View
     {
-        return view('staff.dashboard', $this->systemStats($user));
+        return view('staff.dashboard', app(\App\Services\StaffDashboardAnalytics::class)->data($user));
     }
 
     private function adminDashboard(User $user): View

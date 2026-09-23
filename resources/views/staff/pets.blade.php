@@ -10,7 +10,7 @@
       <div class="col-12 col-md-5 col-lg-4">
         <div class="input-group">
           <span class="input-group-text"><i class="bi bi-search"></i></span>
-          <input type="text" name="q" value="{{ $search }}" class="form-control" placeholder="Search pet name, code, owner...">
+          <input type="text" name="q" value="{{ $search }}" class="form-control" placeholder="Search pet name or owner...">
           <button class="btn btn-brand" type="submit">Search</button>
         </div>
       </div>
@@ -27,7 +27,7 @@
     <section class="card card-light overflow-hidden">
       <div class="table-responsive">
         <table class="table mb-0">
-          <thead><tr><th>Pet</th><th>Code</th><th>Species</th><th>Sex</th><th>Owner</th><th></th></tr></thead>
+          <thead><tr><th>Pet</th><th>Species</th><th>Sex</th><th>Owner</th><th class="text-end">Actions</th></tr></thead>
           <tbody>
             @forelse ($pets as $pet)
               <tr>
@@ -41,14 +41,17 @@
                     <div class="ms-2"><div class="record-name">{{ $pet->name }}</div><div class="record-meta">{{ $pet->breed ?? '' }}</div></div>
                   </div>
                 </td>
-                <td>{{ $pet->code }}</td>
-                <td>{{ $pet->species }}</td>
+                <td>{{ \Illuminate\Support\Str::ucfirst(mb_strtolower(trim($pet->species))) }}</td>
                 <td>{{ $pet->sex }}</td>
                 <td><div class="record-name">{{ $pet->owner_name ?? 'Unknown' }}</div><div class="record-meta">{{ $pet->owner_email ?? '' }}</div></td>
-                <td class="text-end"><a href="{{ route('pets.show', $pet) }}" class="btn btn-brand btn-sm">Pet Details</a></td>
+                <td class="text-end"><div class="d-flex flex-wrap justify-content-end gap-1">
+                  <a href="{{ route('pets.show', $pet) }}" class="btn btn-brand btn-sm" aria-label="View {{ $pet->name }}">View</a>
+                  <a href="{{ route('staff.pets.edit', $pet) }}" class="btn btn-outline-secondary btn-sm" aria-label="Edit {{ $pet->name }}">Edit</a>
+                  <a href="{{ route('staff.pets.remove', $pet) }}" class="btn btn-outline-danger btn-sm" aria-label="Remove {{ $pet->name }}">Remove</a>
+                </div></td>
               </tr>
             @empty
-              <tr><td colspan="6" class="text-center text-muted py-5">No pets found.</td></tr>
+              <tr><td colspan="5" class="text-center text-muted py-5">No pets found.</td></tr>
             @endforelse
           </tbody>
         </table>

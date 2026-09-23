@@ -6,15 +6,17 @@ use App\Models\User;
 use App\Models\Vaccination;
 
 // Simple smoke test for the PawID role system (run: php bootstrap/smoke-test.php)
-require __DIR__.'/../vendor/autoload.php';
-$app = require __DIR__.'/app.php';
+require __DIR__ . '/../vendor/autoload.php';
+$app = require __DIR__ . '/app.php';
 $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
 $pass = true;
 function check(string $name, bool $ok): void
 {
     global $pass;
-    if (! $ok) { $pass = false; }
+    if (!$ok) {
+        $pass = false;
+    }
     echo ($ok ? 'PASS' : 'FAIL') . "  {$name}" . PHP_EOL;
 }
 

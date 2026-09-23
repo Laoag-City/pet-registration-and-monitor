@@ -17,7 +17,7 @@
                         ['bi-shield-plus', 'Vaccination Records', 'Track vaccine schedules and keep shot histories current and easy to share.'],
                         ['bi-capsule', 'Deworming Records', 'Log every deworming treatment so you never miss the next dose.'],
                         ['bi-clipboard2-pulse', 'Medical Records', 'Store diagnoses, treatments, and vet notes in one secure timeline.'],
-                        ['bi-qr-code-scan', 'QR Code Identification', 'A single scan of your pet\'s QR tag reveals who to contact and what they need.'],
+                        ['bi-qr-code-scan', 'QR Code Identification', 'Scan a new pet QR tag to view the owner and pet names. Private records remain protected.'],
                     ] as $feature)
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="feature-card h-100">

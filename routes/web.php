@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DewormingController;
 use App\Http\Controllers\PetController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QRCodeController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\VaccinationController;
@@ -25,18 +27,27 @@ Route::get('/how-it-works', function () {
 })->name('how-it-works');
 
 // Guest (unauthenticated) routes
+// Only name fields are public. Existing /pets/{pet} links remain protected.
+Route::get('/scan/{reference?}', [QRCodeController::class, 'scan'])
+    ->withoutMiddleware([
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,
+    ])
+    ->where('reference', '.*')->name('qrcodes.scan');
+
 Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('/register', [RegisteredUserController::class, 'store'])->name('register.store');
 
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
-    Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
+    Route::post('/login', [AuthenticatedSessionController::class, 'store'])->middleware('throttle:10,1')->name('login.store');
 });
 
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 // Shared authenticated routes (read-only for pet owners, richer for staff/admin)
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'auth.session', \App\Http\Middleware\ShareReminderCount::class])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/mypets', [PetController::class, 'index'])->name('pets.index');
     Route::get('/pets/{pet}', [PetController::class, 'show'])->name('pets.show');
@@ -47,20 +58,42 @@ Route::middleware('auth')->group(function () {
     Route::get('/qrcodes/{pet}/preview', [QRCodeController::class, 'preview'])->name('qrcodes.preview');
 });
 
+// Self-service personal details for regular pet owners.
+Route::middleware(['auth', 'auth.session', 'role:user', \App\Http\Middleware\ShareReminderCount::class])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::patch('/notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.read-all');
+    Route::patch('/notifications/{notification}/read', [NotificationController::class, 'read'])->whereUuid('notification')->name('notifications.read');
+});
+
 // OCV Staff routes (staff + admin)
-Route::middleware(['auth', 'role:staff,admin'])->prefix('staff')->group(function () {
+Route::middleware(['auth', 'auth.session', 'role:staff,admin'])->prefix('staff')->group(function () {
     Route::get('/dashboard', [StaffController::class, 'dashboard'])->name('staff.dashboard');
     Route::get('/users', [StaffController::class, 'users'])->name('staff.users');
     Route::get('/users/{user}', [StaffController::class, 'userDetails'])->name('staff.users.show');
     Route::get('/pets', [StaffController::class, 'allPets'])->name('staff.pets');
     Route::get('/pets/create', [StaffController::class, 'createPet'])->name('staff.pets.create');
     Route::post('/pets', [StaffController::class, 'storePet'])->name('staff.pets.store');
+    Route::get('/pets/{pet}/edit', [StaffController::class, 'editPet'])->name('staff.pets.edit');
+    Route::get('/pets/{pet}/remove', [StaffController::class, 'confirmRemoval'])->name('staff.pets.remove');
+    Route::delete('/pets/{pet}', [StaffController::class, 'destroyPet'])->name('staff.pets.destroy');
+    Route::put('/pets/{pet}', [StaffController::class, 'updatePet'])->name('staff.pets.update');
     Route::post('/vaccinations', [VaccinationController::class, 'store'])->name('vaccinations.store');
+    Route::get('/vaccinations/create', [VaccinationController::class, 'create'])->name('vaccinations.create');
+    Route::post('/vaccinations/review', [VaccinationController::class, 'review'])->name('vaccinations.review');
+    Route::get('/vaccinations/{vaccination}/edit', [VaccinationController::class, 'edit'])->name('vaccinations.edit');
+    Route::put('/vaccinations/{vaccination}', [VaccinationController::class, 'update'])->name('vaccinations.update');
     Route::post('/deworming', [DewormingController::class, 'store'])->name('deworming.store');
+    Route::get('/deworming/create', [DewormingController::class, 'create'])->name('deworming.create');
+    Route::post('/deworming/review', [DewormingController::class, 'review'])->name('deworming.review');
+    Route::get('/deworming/{deworming}/edit', [DewormingController::class, 'edit'])->name('deworming.edit');
+    Route::put('/deworming/{deworming}', [DewormingController::class, 'update'])->name('deworming.update');
 });
 
 // Admin-only routes
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'auth.session', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
     Route::get('/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');

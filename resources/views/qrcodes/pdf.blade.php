@@ -3,13 +3,11 @@
 @section('content')
     @php
         $fields = [
-            'Pet ID' => $pet->code,
             'Species' => $pet->species,
             'Breed' => $pet->breed,
             'Sex' => $pet->sex,
-            'Date of Birth' => $pet->date_of_birth?->date::format('M d, Y'),
+            'Date of Birth' => $pet->date_of_birth?->format('M d, Y'),
             'Color' => $pet->color,
-            'Microchip No.' => $pet->microchip,
             'Owner' => $pet->owner_name,
             'Owner Email' => $pet->owner_email,
             'Owner Contact' => $pet->owner_number,
@@ -23,8 +21,8 @@
 
     <div class="card">
         <div class="qr-side">
-            {!! $qrSvg !!}
-            <div class="qr-caption">Scan to open<br>public profile</div>
+            <img src="data:image/svg+xml;base64,{{ base64_encode($qrSvg) }}" width="180" height="180" alt="Pet QR code">
+            <div class="qr-caption">Scan to view<br>owner and pet names</div>
         </div>
         <div class="info-side">
             <div class="pet-name">{{ $pet->name }}</div>
@@ -32,7 +30,7 @@
                 @foreach ($fields as $label => $value)
                     <tr>
                         <td class="label">{{ $label }}</td>
-                        <td class="value">{{ $value ?: '&mdash;' }}</td>
+                        <td class="value">{{ $value ?: '—' }}</td>
                     </tr>
                 @endforeach
             </table>

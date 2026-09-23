@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('sex', 20);
             $table->date('date_of_birth')->nullable();
             $table->string('color', 80)->nullable();
-            $table->string('microchip', 60)->nullable()->unique();
             $table->timestamps();
         });
     }
