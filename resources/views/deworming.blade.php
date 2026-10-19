@@ -4,7 +4,10 @@
     <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-end gap-3 mb-4">
         <div><div class="page-kicker">Health records</div><h1 class="page-title mb-1">Deworming</h1><p class="text-muted mb-0">Track parasite prevention and upcoming treatments for every pet.</p></div>
         @if ($canManage)
-            <a class="btn btn-brand btn-sm" href="{{ route('deworming.create') }}"><i class="bi bi-plus-lg me-1"></i>Add Deworming Record</a>
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-outline-success btn-sm" href="{{ route('deworming.export') }}" title="Download all deworming records for active pets"><i class="bi bi-file-earmark-excel me-1" aria-hidden="true"></i>Download Excel</a>
+                <a class="btn btn-brand btn-sm" href="{{ route('deworming.create') }}"><i class="bi bi-plus-lg me-1"></i>Add Deworming Record</a>
+            </div>
         @elseif ($pets->isEmpty())
             <span class="record-meta">No pets registered yet.</span>
         @endif

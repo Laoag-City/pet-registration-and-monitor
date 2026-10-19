@@ -4,7 +4,10 @@
     <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-end gap-3 mb-4">
         <div><div class="page-kicker">Health records</div><h1 class="page-title mb-1">Vaccinations</h1><p class="text-muted mb-0">Keep vaccinations current and see which pets need a follow-up.</p></div>
         @if ($canManage)
-            <a class="btn btn-brand btn-sm" href="{{ route('vaccinations.create') }}"><i class="bi bi-plus-lg me-1"></i>Add Vaccination Record</a>
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-outline-success btn-sm" href="{{ route('vaccinations.export') }}" title="Download all vaccination records for active pets"><i class="bi bi-file-earmark-excel me-1" aria-hidden="true"></i>Download Excel</a>
+                <a class="btn btn-brand btn-sm" href="{{ route('vaccinations.create') }}"><i class="bi bi-plus-lg me-1"></i>Add Vaccination Record</a>
+            </div>
         @elseif ($pets->isEmpty())
             <span class="record-meta">No pets registered yet.</span>
         @endif

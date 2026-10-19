@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DewormingRecordsExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Models\DewormingRecord;
 use App\Models\Pet;
 use App\Http\Controllers\Concerns\MedicalRecordWorkflow;
@@ -16,6 +19,13 @@ use Illuminate\View\View;
 class DewormingController extends Controller
 {
     use MedicalRecordWorkflow;
+
+    public function export(): BinaryFileResponse
+    {
+        return Excel::download(new DewormingRecordsExport, 'pawid_deworming_records_'.now('Asia/Manila')->format('Y-m-d').'.xlsx', \Maatwebsite\Excel\Excel::XLSX, [
+            'Cache-Control' => 'private, no-store',
+        ]);
+    }
 
     public function index(): View
     {

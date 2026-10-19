@@ -81,11 +81,13 @@ Route::middleware(['auth', 'auth.session', 'role:staff,admin'])->prefix('staff')
     Route::delete('/pets/{pet}', [StaffController::class, 'destroyPet'])->name('staff.pets.destroy');
     Route::put('/pets/{pet}', [StaffController::class, 'updatePet'])->name('staff.pets.update');
     Route::post('/vaccinations', [VaccinationController::class, 'store'])->name('vaccinations.store');
+    Route::get('/vaccinations/export', [VaccinationController::class, 'export'])->name('vaccinations.export');
     Route::get('/vaccinations/create', [VaccinationController::class, 'create'])->name('vaccinations.create');
     Route::post('/vaccinations/review', [VaccinationController::class, 'review'])->name('vaccinations.review');
     Route::get('/vaccinations/{vaccination}/edit', [VaccinationController::class, 'edit'])->name('vaccinations.edit');
     Route::put('/vaccinations/{vaccination}', [VaccinationController::class, 'update'])->name('vaccinations.update');
     Route::post('/deworming', [DewormingController::class, 'store'])->name('deworming.store');
+    Route::get('/deworming/export', [DewormingController::class, 'export'])->name('deworming.export');
     Route::get('/deworming/create', [DewormingController::class, 'create'])->name('deworming.create');
     Route::post('/deworming/review', [DewormingController::class, 'review'])->name('deworming.review');
     Route::get('/deworming/{deworming}/edit', [DewormingController::class, 'edit'])->name('deworming.edit');
