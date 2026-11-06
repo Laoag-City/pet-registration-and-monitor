@@ -38,7 +38,7 @@ Route::get('/scan/{reference?}', [QRCodeController::class, 'scan'])
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
-    Route::post('/register', [RegisteredUserController::class, 'store'])->name('register.store');
+    Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('throttle:10,1')->name('register.store');
 
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('/login', [AuthenticatedSessionController::class, 'store'])->middleware('throttle:10,1')->name('login.store');
@@ -70,6 +70,14 @@ Route::middleware(['auth', 'auth.session', 'role:user', \App\Http\Middleware\Sha
 
 // OCV Staff routes (staff + admin)
 Route::middleware(['auth', 'auth.session', 'role:staff,admin'])->prefix('staff')->group(function () {
+    foreach ([
+        'animal-health-monitoring' => \App\Http\Controllers\AnimalHealthMonitoringController::class,
+        'routine-services' => \App\Http\Controllers\RoutineServiceController::class,
+    ] as $module => $controller) {
+        Route::get('/'.$module.'/export', [$controller, 'export'])->name('staff.'.$module.'.export');
+        Route::get('/'.$module.'/{record}/delete', [$controller, 'confirmDelete'])->whereNumber('record')->name('staff.'.$module.'.delete');
+        Route::resource($module, $controller)->parameters([$module => 'record'])->names('staff.'.$module)->whereNumber('record');
+    }
     Route::get('/dashboard', [StaffController::class, 'dashboard'])->name('staff.dashboard');
     Route::get('/users', [StaffController::class, 'users'])->name('staff.users');
     Route::get('/users/{user}', [StaffController::class, 'userDetails'])->name('staff.users.show');
@@ -81,12 +89,18 @@ Route::middleware(['auth', 'auth.session', 'role:staff,admin'])->prefix('staff')
     Route::delete('/pets/{pet}', [StaffController::class, 'destroyPet'])->name('staff.pets.destroy');
     Route::put('/pets/{pet}', [StaffController::class, 'updatePet'])->name('staff.pets.update');
     Route::post('/vaccinations', [VaccinationController::class, 'store'])->name('vaccinations.store');
+    Route::get('/vaccinations/{vaccination}/delete', [\App\Http\Controllers\MedicalDeletionController::class, 'vaccination'])->name('vaccinations.delete');
+    Route::delete('/vaccinations/{vaccination}', [\App\Http\Controllers\MedicalDeletionController::class, 'destroyVaccination'])->name('vaccinations.destroy');
+    Route::post('/vaccinations/{vaccination}/done', [\App\Http\Controllers\MedicalCompletionController::class, 'vaccination'])->name('vaccinations.done');
     Route::get('/vaccinations/export', [VaccinationController::class, 'export'])->name('vaccinations.export');
     Route::get('/vaccinations/create', [VaccinationController::class, 'create'])->name('vaccinations.create');
     Route::post('/vaccinations/review', [VaccinationController::class, 'review'])->name('vaccinations.review');
     Route::get('/vaccinations/{vaccination}/edit', [VaccinationController::class, 'edit'])->name('vaccinations.edit');
     Route::put('/vaccinations/{vaccination}', [VaccinationController::class, 'update'])->name('vaccinations.update');
     Route::post('/deworming', [DewormingController::class, 'store'])->name('deworming.store');
+    Route::get('/deworming/{deworming}/delete', [\App\Http\Controllers\MedicalDeletionController::class, 'deworming'])->name('deworming.delete');
+    Route::delete('/deworming/{deworming}', [\App\Http\Controllers\MedicalDeletionController::class, 'destroyDeworming'])->name('deworming.destroy');
+    Route::post('/deworming/{deworming}/done', [\App\Http\Controllers\MedicalCompletionController::class, 'deworming'])->name('deworming.done');
     Route::get('/deworming/export', [DewormingController::class, 'export'])->name('deworming.export');
     Route::get('/deworming/create', [DewormingController::class, 'create'])->name('deworming.create');
     Route::post('/deworming/review', [DewormingController::class, 'review'])->name('deworming.review');
@@ -96,6 +110,9 @@ Route::middleware(['auth', 'auth.session', 'role:staff,admin'])->prefix('staff')
 
 // Admin-only routes
 Route::middleware(['auth', 'auth.session', 'role:admin'])->prefix('admin')->group(function () {
+    Route::get('/record-audit', [\App\Http\Controllers\RecordArchiveController::class, 'audit'])->name('admin.record-audit');
+    Route::get('/record-archive/{type?}', [\App\Http\Controllers\RecordArchiveController::class, 'index'])->name('admin.record-archive');
+    Route::post('/record-archive/{type}/{record}/restore', [\App\Http\Controllers\RecordArchiveController::class, 'restore'])->whereNumber('record')->name('admin.record-archive.restore');
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
     Route::get('/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');

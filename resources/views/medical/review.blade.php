@@ -20,7 +20,7 @@
                     <dd class="col-md-8 text-break" style="white-space:pre-wrap">{{ ($values[$field] ?? '') !== '' && ($values[$field] ?? null) !== null ? $values[$field] : 'Not provided' }}</dd>
                 @endforeach
             </dl>
-            <form method="POST" action="{{ route($type.'.store') }}">
+            <form method="POST" action="{{ route($type.'.store') }}" data-prevent-repeat>
                 @csrf
                 @foreach ($values as $field => $value)<input type="hidden" name="{{ $field }}" value="{{ $value }}">@endforeach
                 <div class="d-flex flex-wrap gap-2">

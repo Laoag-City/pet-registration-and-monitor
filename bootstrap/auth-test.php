@@ -1,5 +1,7 @@
 <?php
 
+if (PHP_SAPI !== 'cli') { http_response_code(404); exit; }
+
 // Authorization + view rendering smoke test (run: php bootstrap/auth-test.php)
 require __DIR__.'/../vendor/autoload.php';
 $app = require __DIR__.'/app.php';
@@ -57,8 +59,9 @@ if ($staff && $pet) {
 }
 
 // Views render
+view()->share('errors', new Illuminate\Support\ViewErrorBag);
 $views = [
-    'staff.dashboard' => fn () => view('staff.dashboard', ['user' => $admin, 'userCount' => 0, 'staffCount' => 0, 'petCount' => 0, 'vaccinationCount' => 0, 'dewormingCount' => 0, 'recentPets' => collect(), 'recentUsers' => collect()]),
+    'staff.dashboard' => fn () => view('staff.dashboard', ['user' => $admin, 'userCount' => 0, 'staffCount' => 0, 'petCount' => 0]),
     'staff.users' => fn () => view('staff.users', ['users' => User::where('role', 'user')->paginate(12), 'search' => '']),
     'staff.user-details' => fn () => view('staff.user-details', ['client' => $owner, 'pets' => collect()]),
     'staff.pets' => fn () => view('staff.pets', ['pets' => Pet::paginate(15), 'search' => '', 'speciesFilter' => '', 'speciesList' => collect()]),

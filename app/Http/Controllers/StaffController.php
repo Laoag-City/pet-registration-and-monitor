@@ -42,6 +42,7 @@ class StaffController extends Controller
     public function updatePet(\App\Http\Requests\UpdatePetRequest $request, Pet $pet): RedirectResponse
     {
         $values = $request->safe()->only(['name', 'species', 'breed', 'sex', 'date_of_birth', 'color']);
+        $values['species'] = \App\Support\PetSpecies::stored($request->validated());
         if ($request->hasFile('photo')) {
             $values['photo_path'] = $request->file('photo')->store('pet-photos', 'public');
         }
@@ -146,10 +147,9 @@ class StaffController extends Controller
 
     public function storePet(Request $request): RedirectResponse
     {
-        $validated = $request->validate([
+        $validated = $request->validate(\App\Support\PetSpecies::rules() + [
             'owner_id' => ['required', Rule::exists('users', 'id')->where('role', User::ROLE_USER)],
             'name' => ['required', 'string', 'max:120'],
-            'species' => ['required', 'string', 'max:60'],
             'breed' => ['nullable', 'string', 'max:120'],
             'sex' => ['required', Rule::in(['Male', 'Female'])],
             'date_of_birth' => ['nullable', 'date', 'before_or_equal:today'],
@@ -168,7 +168,7 @@ class StaffController extends Controller
 
         $pet = Pet::create([
             'name' => $validated['name'],
-            'species' => $validated['species'],
+            'species' => \App\Support\PetSpecies::stored($validated),
             'breed' => $validated['breed'] ?? null,
             'sex' => $validated['sex'],
             'date_of_birth' => $validated['date_of_birth'] ?? null,

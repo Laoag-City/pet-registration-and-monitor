@@ -23,8 +23,10 @@ class PetCareReminders
     {
         $table = (new $model)->getTable();
 
-        return $model::query()->whereNotExists(function ($query) use ($table, $model) {
+        return $model::query()->whereNull('schedule_completed_at')->whereNotExists(function ($query) use ($table, $model) {
             $query->selectRaw('1')->from($table.' as newer')
+                ->whereNull('newer.deleted_at')
+                ->whereNull('newer.schedule_completed_at')
                 ->whereColumn('newer.pet_id', $table.'.pet_id')
                 ->when($model === Vaccination::class, fn ($q) => $q->whereRaw('LOWER(TRIM(newer.vaccine)) = LOWER(TRIM(vaccinations.vaccine))'))
                 ->where(function ($q) use ($table) {
@@ -32,6 +34,14 @@ class PetCareReminders
                         ->orWhere(fn ($tie) => $tie->whereColumn('newer.administered_at', $table.'.administered_at')->whereColumn('newer.id', '>', $table.'.id'));
                 });
         });
+    }
+
+    /** Filter AFTER supersession so an unscheduled latest administration cannot revive an older due date. */
+    public function scheduledRecords(string $model): Builder
+    {
+        return $this->latestRecords($model)
+            ->whereNotNull('next_due_at')
+            ->whereRaw("CAST(next_due_at AS TEXT) <> ''");
     }
 
     public function schedules(User $owner, ?Pet $pet = null): Collection
@@ -43,7 +53,7 @@ class PetCareReminders
         $today = $this->today();
         $schedules = collect();
         foreach (['vaccination' => Vaccination::class, 'deworming' => DewormingRecord::class] as $type => $model) {
-            $records = $this->latestRecords($model)
+            $records = $this->scheduledRecords($model)
                 ->whereHas('pet', fn ($q) => $q->where('owner_email', $owner->email)->when($pet, fn ($q) => $q->whereKey($pet->id)))
                 ->whereNotNull('next_due_at')->with('pet')->get();
 

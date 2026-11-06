@@ -14,7 +14,7 @@ class VaccinationsExport extends MedicalRecordsExport
 
     public function headings(): array
     {
-        return array_merge($this->ownerAndPetHeadings(), ['Vaccine Name', 'Date Administered', 'Next Due Date', 'Veterinarian']);
+        return array_merge($this->ownerAndPetHeadings(), ['Vaccine Name', 'Date Administered', 'Next Due Date', 'Veterinarian', 'Schedule Completion Status', 'Actual Completion Date', 'Treatment Status']);
     }
 
     public function map($record): array
@@ -24,6 +24,6 @@ class VaccinationsExport extends MedicalRecordsExport
             $record->administered_at?->format('M j, Y'),
             $record->next_due_at?->format('M j, Y'),
             $record->veterinarian,
-        ]);
+        ], $this->completionColumns($record));
     }
 }

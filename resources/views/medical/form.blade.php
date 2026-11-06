@@ -65,6 +65,9 @@
                     </div>
                 </div>
                 <div class="d-flex gap-2 mt-4">
+                    @if($editing)
+                        <div class="flex-grow-1"><label for="audit_reason" class="form-label">Reason for correction (recommended)</label><input class="form-control" id="audit_reason" name="audit_reason" maxlength="500" value="{{ old('audit_reason') }}"></div>
+                    @endif
                     <button class="btn btn-brand" type="submit">{{ $editing ? 'Save Changes' : 'Review Record' }}</button>
                     <a href="{{ route($type.'.index') }}" class="btn btn-outline-secondary">Cancel</a>
                 </div>

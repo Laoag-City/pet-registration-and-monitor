@@ -44,11 +44,16 @@ class VaccinationController extends Controller
         $currentRecordIds = app(\App\Services\PetCareReminders::class)->latestRecords(Vaccination::class)
             ->whereIn('pet_id', $pets->pluck('id'))->pluck('id');
 
+        $scheduledRecords = app(\App\Services\PetCareReminders::class)->scheduledRecords(Vaccination::class)
+            ->whereIn('pet_id', $pets->pluck('id'))->with('pet')
+            ->orderBy('next_due_at')->orderBy('id')->get();
+
         return view('vaccinations', [
             'pets' => $pets,
             'records' => $records,
+            'scheduledRecords' => $scheduledRecords,
             'currentRecordIds' => $currentRecordIds,
-            'stats' => ['total' => $records->count()] + $this->stats($records->whereIn('id', $currentRecordIds)),
+            'stats' => ['total' => $records->count()] + $this->stats($scheduledRecords),
         ]);
     }
 
@@ -89,9 +94,11 @@ class VaccinationController extends Controller
 
     public function update(MedicalRecordRequest $request, Vaccination $vaccination): RedirectResponse
     {
+        $request->validate(['audit_reason' => ['nullable', 'string', 'max:500']]);
         DB::transaction(function () use ($request, $vaccination): void {
             $pet = Pet::whereKey($vaccination->pet_id)->lockForUpdate()->firstOrFail();
-            $vaccination->update(Arr::except($request->validated(), ['owner_id', 'pet_id']));
+            $current = Vaccination::whereKey($vaccination->id)->lockForUpdate()->firstOrFail();
+            app(\App\Services\RecordAudit::class)->update($current, Arr::except($request->validated(), ['owner_id', 'pet_id']), $request->user(), $request->input('audit_reason'));
             app(\App\Services\PetCareReminders::class)->generateForPet($pet);
         });
 
@@ -100,6 +107,8 @@ class VaccinationController extends Controller
 
     private function stats(Collection $records): array
     {
+        // Only scheduled obligations contribute to due-status counts; history remains unfiltered.
+        $records = $records->whereNotNull('next_due_at');
         $today = today();
         $dueSoon = $today->copy()->addDays(30);
         $overdue = $records->filter(fn (Vaccination $record) => $record->next_due_at?->isBefore($today))->count();

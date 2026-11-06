@@ -9,3 +9,22 @@
 /.github export-ignore
 CHANGELOG.md export-ignore
 .styleci.yml export-ignore
+
+# Retain QA/test sources in Git, but omit them from git-archive release packages.
+/tests export-ignore
+/tests/** export-ignore
+/phpunit.xml export-ignore
+/qa-*.mjs export-ignore
+/qr-test.php export-ignore
+/verify-photo.php export-ignore
+/verify-qr.php export-ignore
+/tmp-check.php export-ignore
+/_check*.php export-ignore
+/hero-check.png export-ignore
+/bootstrap/*-test.php export-ignore
+/bootstrap/*-readonly.php export-ignore
+/bootstrap/audit-*.php export-ignore
+/bootstrap/backup-before-audit.php export-ignore
+/bootstrap/verify-backup-restore.php export-ignore
+/docs export-ignore
+/docs/** export-ignore

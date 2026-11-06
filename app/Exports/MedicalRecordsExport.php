@@ -15,18 +15,35 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 // StringValueBinder preserves phone-number zeros and prevents cell formula injection.
 abstract class MedicalRecordsExport extends StringValueBinder implements FromQuery, ShouldAutoSize, WithCustomValueBinder, WithHeadings, WithMapping, WithStyles
 {
+    private ?array $completionLinks = null;
+
     protected function recordsQuery(string $model, array $columns): Builder
     {
+        $this->completionLinks ??= app(\App\Services\MedicalCompletionLinks::class)->resolve($model);
         // Match the medical pages: archived pets are excluded by Pet's soft-delete scope.
         return $model::query()
-            ->select(array_merge(['id', 'pet_id', 'administered_at', 'next_due_at'], $columns))
+            ->select(array_merge(['id', 'pet_id', 'administered_at', 'next_due_at', 'schedule_completed_at'], $columns))
             ->whereHas('pet')
+            ->whereIntegerNotInRaw('id', $this->completionLinks['superseded_ids'])
             ->with([
                 'pet:id,name,species,breed,sex,owner_name,owner_email,owner_number',
                 'pet.owner:id,name,email,contact_number',
             ])
             ->orderByDesc('administered_at')
             ->orderByDesc('id');
+    }
+
+    protected function completionColumns($record): array
+    {
+        $this->completionLinks ??= app(\App\Services\MedicalCompletionLinks::class)->resolve($record::class);
+        if (in_array($record->id, $this->completionLinks['completed_ids'], true)) {
+            return ['Completed', $record->administered_at?->format('M j, Y'), 'Completed'];
+        }
+        return [
+            $record->schedule_completed_at ? 'Completed' : ($record->next_due_at ? 'Not recorded' : 'No schedule'),
+            $record->schedule_completed_at?->format('M j, Y'),
+            $record->administered_at && $record->administered_at->lte(today()) ? 'Completed' : 'Administration not confirmed',
+        ];
     }
 
     protected function ownerAndPet($record): array

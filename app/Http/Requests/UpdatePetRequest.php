@@ -14,9 +14,8 @@ class UpdatePetRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
+        return \App\Support\PetSpecies::rules() + [
             'name' => ['required', 'string', 'max:120'],
-            'species' => ['required', 'string', 'max:60'],
             'breed' => ['nullable', 'string', 'max:120'],
             'sex' => ['required', Rule::in(['Male', 'Female'])],
             'date_of_birth' => ['nullable', 'date_format:Y-m-d', 'before_or_equal:today'],

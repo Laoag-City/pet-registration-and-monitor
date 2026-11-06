@@ -100,7 +100,7 @@ class SystemAuditTest extends TestCase
         $owner = $this->account();
         $staff = $this->account('staff');
         $this->actingAs($staff);
-        $data = ['owner_id' => $owner->id, 'name' => 'Audit Registered', 'species' => 'Cat', 'sex' => 'Female', 'owner_email' => 'attacker@example.test'];
+        $data = ['owner_id' => $owner->id, 'name' => 'Audit Registered', 'species' => 'Feline', 'sex' => 'Female', 'owner_email' => 'attacker@example.test'];
         $this->post('/staff/pets', $data)->assertRedirect('/staff/users/'.$owner->id);
         $this->assertDatabaseHas('pets', ['name' => 'Audit Registered', 'owner_email' => $owner->email]);
         $this->post('/staff/pets', array_merge($data, ['date_of_birth' => '2999-01-01']))->assertSessionHasErrors('date_of_birth');
@@ -284,7 +284,7 @@ class SystemAuditTest extends TestCase
         $owner = $this->account();
         $this->actingAs($this->account('staff'));
         $png = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1sAAAAASUVORK5CYII=');
-        $data = ['owner_id' => $owner->id, 'name' => 'Audit Photo', 'species' => 'Dog', 'sex' => 'Male', 'photo' => UploadedFile::fake()->createWithContent('audit.png', $png)];
+        $data = ['owner_id' => $owner->id, 'name' => 'Audit Photo', 'species' => 'Canine', 'sex' => 'Male', 'photo' => UploadedFile::fake()->createWithContent('audit.png', $png)];
         $this->post('/staff/pets', $data)->assertSessionHasNoErrors()->assertRedirect();
         $pet = Pet::where('name', 'Audit Photo')->firstOrFail();
         Storage::disk('public')->assertExists($pet->photo_path);

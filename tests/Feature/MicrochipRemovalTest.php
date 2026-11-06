@@ -19,7 +19,7 @@ class MicrochipRemovalTest extends TestCase
     {
         $owner = User::factory()->create(['role' => 'user']);
         $staff = User::factory()->create(['role' => 'staff']);
-        $values = ['owner_id' => $owner->id, 'name' => 'Chipless Pet', 'species' => 'Dog', 'sex' => 'Male'];
+        $values = ['owner_id' => $owner->id, 'name' => 'Chipless Pet', 'species' => 'Canine', 'sex' => 'Male'];
         $this->actingAs($staff)->post('/staff/pets', $values)->assertSessionHasNoErrors()->assertRedirect();
         $pet = Pet::sole();
         $this->assertNull($pet->microchip);
@@ -29,7 +29,7 @@ class MicrochipRemovalTest extends TestCase
         $pet->vaccinations()->create(['vaccine' => 'Test', 'administered_at' => '2026-01-01']);
         $pet->dewormingRecords()->create(['product' => 'Test', 'administered_at' => '2026-01-01']);
         $this->get('/staff/pets/'.$pet->id.'/edit')->assertOk()->assertDontSee('microchip', false);
-        $edit = ['name' => 'Edited Chipless Pet', 'species' => 'Dog', 'sex' => 'Female'];
+        $edit = ['name' => 'Edited Chipless Pet', 'species' => 'Canine', 'sex' => 'Female'];
         $this->put('/staff/pets/'.$pet->id, $edit)->assertSessionHasNoErrors()->assertRedirect('/pets/'.$pet->id);
         $this->put('/staff/pets/'.$pet->id, $edit + ['microchip' => 'REPLACEMENT', 'microchip_number' => 'INJECTED'])->assertSessionHasNoErrors();
         $this->assertSame('LEGACY-PRIVATE-777', $pet->fresh()->microchip);
@@ -77,7 +77,7 @@ class MicrochipRemovalTest extends TestCase
         $this->actingAs($owner)->get($url.'/edit')->assertForbidden();
         $this->put($url, [])->assertForbidden();
         $this->actingAs(User::factory()->create(['role' => 'admin']))->get($url.'/edit')->assertOk();
-        $values = ['name' => 'Updated', 'species' => 'Dog', 'sex' => 'Male'];
+        $values = ['name' => 'Updated', 'species' => 'Canine', 'sex' => 'Male'];
         $this->put($url, $values + ['owner_email' => 'claim@example.test', 'owner_id' => 999])->assertSessionHasErrors(['owner_email', 'owner_id']);
         $this->put($url, array_replace($values, ['date_of_birth' => '2025-02-29']))->assertSessionHasErrors('date_of_birth');
         $this->get($url.'/edit')->assertOk()->assertSee('invalid-feedback')->assertSee('value="Updated"', false);

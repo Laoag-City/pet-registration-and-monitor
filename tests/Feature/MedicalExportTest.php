@@ -42,7 +42,7 @@ class MedicalExportTest extends TestCase
     {
         return ['Owner Name', 'Owner Email', 'Owner Contact Number', 'Pet Name', 'Species', 'Breed', 'Sex',
             $type === 'vaccinations' ? 'Vaccine Name' : 'Deworming Product',
-            'Date Administered', 'Next Due Date', $type === 'vaccinations' ? 'Veterinarian' : 'Weight (kg)'];
+            'Date Administered', 'Next Due Date', $type === 'vaccinations' ? 'Veterinarian' : 'Weight (kg)', 'Schedule Completion Status', 'Actual Completion Date', 'Treatment Status'];
     }
 
     private function download(string $type): \PhpOffice\PhpSpreadsheet\Spreadsheet

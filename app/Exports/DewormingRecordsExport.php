@@ -14,7 +14,7 @@ class DewormingRecordsExport extends MedicalRecordsExport
 
     public function headings(): array
     {
-        return array_merge($this->ownerAndPetHeadings(), ['Deworming Product', 'Date Administered', 'Next Due Date', 'Weight (kg)']);
+        return array_merge($this->ownerAndPetHeadings(), ['Deworming Product', 'Date Administered', 'Next Due Date', 'Weight (kg)', 'Schedule Completion Status', 'Actual Completion Date', 'Treatment Status']);
     }
 
     public function map($record): array
@@ -24,6 +24,6 @@ class DewormingRecordsExport extends MedicalRecordsExport
             $record->administered_at?->format('M j, Y'),
             $record->next_due_at?->format('M j, Y'),
             $record->weight_kg,
-        ]);
+        ], $this->completionColumns($record));
     }
 }

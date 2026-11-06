@@ -44,7 +44,7 @@ class PetManagementTest extends TestCase
         $this->actingAs(User::factory()->create(['role' => $role]));
         $this->get(route('staff.pets'))->assertOk()->assertSee(route('staff.pets.edit', $pet));
         $this->get(route('staff.pets.edit', $pet))->assertOk()->assertSee($pet->owner->name);
-        $this->put(route('staff.pets.update', $pet), ['name' => 'Buddy Jr.', 'species' => 'Dog', 'sex' => 'Male', 'color' => 'Brown'])
+        $this->put(route('staff.pets.update', $pet), ['name' => 'Buddy Jr.', 'species' => 'Canine', 'sex' => 'Male', 'color' => 'Brown'])
             ->assertRedirect(route('pets.show', $pet))->assertSessionHas('success', 'Pet details updated successfully.');
         $this->assertSame($original, $pet->fresh()->only(array_keys($original)));
         $this->assertSame('Buddy Jr.', $pet->fresh()->name);
@@ -125,7 +125,7 @@ class PetManagementTest extends TestCase
         $pet = $this->pet();
         Storage::disk('public')->put($pet->photo_path, 'existing');
         $this->actingAs(User::factory()->create(['role' => 'staff']));
-        $valid = ['name' => 'Buddy', 'species' => 'Dog', 'sex' => 'Male'];
+        $valid = ['name' => 'Buddy', 'species' => 'Canine', 'sex' => 'Male'];
         $this->put(route('staff.pets.update', $pet), $valid + ['owner_email' => 'other@example.test'])
             ->assertSessionHasErrors('owner_email');
         $this->put(route('staff.pets.update', $pet), $valid + ['date_of_birth' => today()->addDay()->toDateString(),

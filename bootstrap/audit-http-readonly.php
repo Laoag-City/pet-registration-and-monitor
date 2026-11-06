@@ -35,10 +35,10 @@ try {
         foreach (['/dashboard', '/mypets', '/vaccinations', '/deworming', '/qrcodes'] as $url) {
             $check($role.' '.$url, $get($url)->getStatusCode() === 200);
         }
-        foreach (['/staff/dashboard', '/staff/users', '/staff/pets', '/staff/pets/create'] as $url) {
+        foreach (['/staff/dashboard', '/staff/users', '/staff/pets', '/staff/pets/create', '/staff/animal-health-monitoring', '/staff/animal-health-monitoring/create', '/staff/routine-services', '/staff/routine-services/create'] as $url) {
             $check($role.' '.$url, $get($url)->getStatusCode() === ($role === 'user' ? 403 : 200));
         }
-        foreach (['/admin/dashboard', '/admin/users', '/admin/users/create'] as $url) {
+        foreach (['/admin/dashboard', '/admin/users', '/admin/users/create', '/admin/record-archive', '/admin/record-audit'] as $url) {
             $check($role.' '.$url, $get($url)->getStatusCode() === ($role === 'admin' ? 200 : 403));
         }
         foreach (Pet::all() as $pet) {

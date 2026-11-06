@@ -1,0 +1,84 @@
+﻿ M .gitignore
+ M app/Exports/DewormingRecordsExport.php
+ M app/Exports/MedicalRecordsExport.php
+ M app/Exports/VaccinationsExport.php
+ M app/Http/Controllers/DewormingController.php
+ M app/Http/Controllers/StaffController.php
+ M app/Http/Controllers/VaccinationController.php
+ M app/Http/Requests/UpdatePetRequest.php
+ M app/Models/DewormingRecord.php
+ M app/Models/Vaccination.php
+ M app/Services/PetCareReminders.php
+ M bootstrap/audit-http-readonly.php
+ M bootstrap/auth-test.php
+ M bootstrap/http-test.php
+ M bootstrap/smoke-test.php
+ M composer.lock
+ M config/app.php
+ M config/session.php
+ M package-lock.json
+ M qr-test.php
+ M resources/js/app.js
+ M resources/views/deworming.blade.php
+ M resources/views/layouts/app.blade.php
+ M resources/views/medical/form.blade.php
+ M resources/views/medical/review.blade.php
+ M resources/views/staff/edit-pet.blade.php
+ M resources/views/staff/register-pet.blade.php
+ M resources/views/vaccinations.blade.php
+ M routes/web.php
+ M tests/Feature/MedicalExportTest.php
+ M tests/Feature/MicrochipRemovalTest.php
+ M tests/Feature/PetManagementTest.php
+ M tests/Feature/SystemAuditTest.php
+?? .env.production.example
+?? DEPLOYMENT_CHECKLIST.md
+?? app/Exports/LivestockRecordsExport.php
+?? app/Http/Controllers/AnimalHealthMonitoringController.php
+?? app/Http/Controllers/LivestockRecordController.php
+?? app/Http/Controllers/MedicalCompletionController.php
+?? app/Http/Controllers/MedicalDeletionController.php
+?? app/Http/Controllers/RecordArchiveController.php
+?? app/Http/Controllers/RoutineServiceController.php
+?? app/Http/Requests/LivestockRecordRequest.php
+?? app/Models/AnimalHealthMonitoringRecord.php
+?? app/Models/LivestockRecord.php
+?? app/Models/RoutineServiceRecord.php
+?? app/Services/RecordAudit.php
+?? app/Services/RecordDeletion.php
+?? app/Support/LaoagBarangays.php
+?? app/Support/PetSpecies.php
+?? bootstrap/audit-integrity.php
+?? bootstrap/backup-before-audit.php
+?? bootstrap/verify-backup-restore.php
+?? database/migrations/2026_11_03_000001_create_animal_health_monitoring_records_table.php
+?? database/migrations/2026_11_03_000002_create_routine_service_records_table.php
+?? database/migrations/2026_11_04_000001_add_schedule_completion_to_medical_records.php
+?? database/migrations/2026_11_04_000002_add_record_soft_deletes_and_audit.php
+?? database/migrations/2026_11_04_000003_create_record_change_audits_table.php
+?? docs/deployment-audit.md
+?? docs/laoag-barangays.md
+?? docs/medical-completion-and-pet-species.md
+?? docs/medical-history-and-schedules.md
+?? docs/working-tree-files.txt
+?? resources/views/admin/record-archive.blade.php
+?? resources/views/admin/record-audit.blade.php
+?? resources/views/medical/delete.blade.php
+?? resources/views/medical/done-button.blade.php
+?? resources/views/medical/done-modals.blade.php
+?? resources/views/medical/history-status.blade.php
+?? resources/views/medical/schedule-list.blade.php
+?? resources/views/staff/livestock/form.blade.php
+?? resources/views/staff/livestock/index.blade.php
+?? resources/views/staff/livestock/show.blade.php
+?? resources/views/staff/pet-species.blade.php
+?? tests/Feature/LaoagBarangayTest.php
+?? tests/Feature/LivestockMonitoringTest.php
+?? tests/Feature/MedicalCompletionTest.php
+?? tests/Feature/MedicalScheduleListTest.php
+?? tests/Feature/PetSpeciesSelectionTest.php
+?? tests/Feature/RecordDeletionTest.php
+?? tests/Feature/RecordRecoveryTest.php
+?? tests/Fixtures/schema.sql
+?? tests/frontend/repeat-submission.test.cjs
+?? tests/run-without-migrations.py

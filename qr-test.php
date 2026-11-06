@@ -1,5 +1,7 @@
 <?php
 
+if (PHP_SAPI !== 'cli') { http_response_code(404); exit; }
+
 use App\Models\Pet;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;

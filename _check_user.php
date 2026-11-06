@@ -1,4 +1,5 @@
 <?php
+if (PHP_SAPI !== 'cli') { http_response_code(404); exit; }
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;

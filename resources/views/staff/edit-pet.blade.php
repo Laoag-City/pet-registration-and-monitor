@@ -17,7 +17,8 @@
             @csrf
             @method('PUT')
             <div class="row g-3">
-                @foreach (['name' => ['Pet name', 120, true], 'species' => ['Species', 60, true], 'breed' => ['Breed', 120, false], 'color' => ['Color', 80, false]] as $field => [$label, $limit, $required])
+                @include('staff.pet-species')
+                @foreach (['name' => ['Pet name', 120, true], 'breed' => ['Breed', 120, false], 'color' => ['Color', 80, false]] as $field => [$label, $limit, $required])
                     <div class="col-md-6">
                         <label class="form-label" for="{{ $field }}">{{ $label }}{{ $required ? ' *' : '' }}</label>
                         <input id="{{ $field }}" name="{{ $field }}" value="{{ old($field, $pet->$field) }}" maxlength="{{ $limit }}" @required($required) class="form-control @error($field) is-invalid @enderror">

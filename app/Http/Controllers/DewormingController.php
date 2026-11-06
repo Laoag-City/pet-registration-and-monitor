@@ -44,11 +44,16 @@ class DewormingController extends Controller
         $currentRecordIds = app(\App\Services\PetCareReminders::class)->latestRecords(DewormingRecord::class)
             ->whereIn('pet_id', $pets->pluck('id'))->pluck('id');
 
+        $scheduledRecords = app(\App\Services\PetCareReminders::class)->scheduledRecords(DewormingRecord::class)
+            ->whereIn('pet_id', $pets->pluck('id'))->with('pet')
+            ->orderBy('next_due_at')->orderBy('id')->get();
+
         return view('deworming', [
             'pets' => $pets,
             'records' => $records,
+            'scheduledRecords' => $scheduledRecords,
             'currentRecordIds' => $currentRecordIds,
-            'stats' => ['total' => $records->count()] + $this->stats($records->whereIn('id', $currentRecordIds)),
+            'stats' => ['total' => $records->count()] + $this->stats($scheduledRecords),
         ]);
     }
 
@@ -89,9 +94,11 @@ class DewormingController extends Controller
 
     public function update(MedicalRecordRequest $request, DewormingRecord $deworming): RedirectResponse
     {
+        $request->validate(['audit_reason' => ['nullable', 'string', 'max:500']]);
         DB::transaction(function () use ($request, $deworming): void {
             $pet = Pet::whereKey($deworming->pet_id)->lockForUpdate()->firstOrFail();
-            $deworming->update(Arr::except($request->validated(), ['owner_id', 'pet_id']));
+            $current = DewormingRecord::whereKey($deworming->id)->lockForUpdate()->firstOrFail();
+            app(\App\Services\RecordAudit::class)->update($current, Arr::except($request->validated(), ['owner_id', 'pet_id']), $request->user(), $request->input('audit_reason'));
             app(\App\Services\PetCareReminders::class)->generateForPet($pet);
         });
 
@@ -100,6 +107,8 @@ class DewormingController extends Controller
 
     private function stats(Collection $records): array
     {
+        // Only scheduled obligations contribute to due-status counts; history remains unfiltered.
+        $records = $records->whereNotNull('next_due_at');
         $today = today();
         $dueSoon = $today->copy()->addDays(30);
         $overdue = $records->filter(fn (DewormingRecord $record) => $record->next_due_at?->isBefore($today))->count();

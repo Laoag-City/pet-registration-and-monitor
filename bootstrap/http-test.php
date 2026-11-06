@@ -1,5 +1,7 @@
 <?php
 
+if (PHP_SAPI !== 'cli') { http_response_code(404); exit; }
+
 // End-to-end HTTP smoke test (run: php bootstrap/http-test.php)
 require __DIR__ . '/../vendor/autoload.php';
 $app = require __DIR__ . '/app.php';

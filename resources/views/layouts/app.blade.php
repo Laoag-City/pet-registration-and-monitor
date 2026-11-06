@@ -60,6 +60,7 @@
         $navItems = $authUser?->isAdmin() ? [
             ['path' => 'admin/dashboard', 'route' => 'admin.dashboard', 'active' => ['dashboard', 'admin.dashboard', 'staff.dashboard'], 'label' => 'Dashboard', 'icon' => 'bi-grid-1x2'],
             ['path' => 'admin/users', 'route' => 'admin.users', 'active' => ['admin.users', 'admin.users.create', 'admin.users.edit', 'staff.users', 'staff.users.show'], 'label' => 'User Management', 'icon' => 'bi-people'],
+            ['path' => 'admin/record-archive', 'route' => 'admin.record-archive', 'active' => ['admin.record-archive', 'admin.record-audit'], 'label' => 'Record Archive', 'icon' => 'bi-archive'],
             ['path' => 'staff/pets', 'route' => 'staff.pets', 'active' => ['staff.pets', 'staff.pets.edit', 'staff.pets.remove', 'pets.index', 'pets.show'], 'label' => 'All Pets', 'icon' => 'bi-collection'],
             ['path' => 'staff/pets/create', 'route' => 'staff.pets.create', 'active' => ['staff.pets.create'], 'label' => 'Register Pet', 'icon' => 'bi-plus-circle'],
             ['path' => 'vaccinations', 'route' => 'vaccinations.index', 'active' => ['vaccinations.*'], 'label' => 'Vaccinations', 'icon' => 'bi-shield-check'],
@@ -82,6 +83,10 @@
             ['path' => 'deworming', 'route' => 'deworming.index', 'active' => ['deworming.*'], 'label' => 'Deworming', 'icon' => 'bi-capsule'],
             ['path' => 'qrcodes', 'route' => 'qrcodes.index', 'active' => ['qrcodes.*'], 'label' => 'QR Codes', 'icon' => 'bi-qr-code'],
         ]);
+        if ($canManage) {
+            $navItems[] = ['path' => 'staff/animal-health-monitoring', 'route' => 'staff.animal-health-monitoring.index', 'active' => ['staff.animal-health-monitoring.*'], 'label' => 'Animal Health Monitoring', 'icon' => 'bi-clipboard2-pulse'];
+            $navItems[] = ['path' => 'staff/routine-services', 'route' => 'staff.routine-services.index', 'active' => ['staff.routine-services.*'], 'label' => 'Routine Services', 'icon' => 'bi-clipboard2-check'];
+        }
     @endphp
     <div class="d-flex">
         <aside class="app-sidebar d-none d-lg-flex flex-column justify-content-between p-3">
