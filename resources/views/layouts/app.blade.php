@@ -132,8 +132,27 @@
         </main>
     </div>
     <div class="offcanvas offcanvas-start mobile-menu" tabindex="-1" id="mobileNavigation"><div class="offcanvas-header border-bottom"><div class="d-flex align-items-center gap-2"><span class="brand-mark"><img src="{{ asset('images/city vet.jpg') }}" alt=""></span><span class="brand-title">PawID</span></div><button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button></div><div class="offcanvas-body"><div class="d-flex align-items-center gap-2 mb-4 p-3 rounded" style="background:var(--brand-soft)"><span class="user-chip">{{ $initials }}</span><div class="text-truncate" style="min-width:0"><div class="small fw-semibold text-truncate">{{ $authUser?->name }}</div><div class="record-meta text-truncate">{{ $authUser?->email }}</div></div></div><nav class="app-nav nav flex-column gap-1">@foreach ($navItems as $item)<a class="nav-link {{ request()->routeIs(...$item['active']) ? 'active' : '' }}" href="{{ route($item['route']) }}"><i class="bi {{ $item['icon'] }}"></i>{{ $item['label'] }}</a>@endforeach</nav><form method="POST" action="{{ route('logout') }}" class="mt-3">@csrf<button type="submit" class="btn btn-outline-secondary btn-sm w-100"><i class="bi bi-box-arrow-right me-1"></i>Sign Out</button></form></div></div>
+    @if (session('must_change_password'))
+    <div class="modal fade" id="defaultPasswordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="defaultPasswordTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+            <form method="POST" action="{{ route('password.change') }}">@csrf @method('PUT')
+                <div class="modal-header"><h5 class="modal-title" id="defaultPasswordTitle"><i class="bi bi-shield-lock me-2"></i>Change your password</h5></div>
+                <div class="modal-body">
+                    <p class="text-muted small">You are signed in with the default password. Please choose a new one before continuing.</p>
+                    @if ($errors->passwordChange->any())<div class="alert alert-danger py-2 small"><ul class="mb-0">@foreach ($errors->passwordChange->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
+                    <div class="mb-3"><label class="form-label" for="dp_current">Current password</label><input id="dp_current" name="current_password" type="password" class="form-control" autocomplete="current-password" required></div>
+                    <div class="mb-3"><label class="form-label" for="dp_new">New password</label><input id="dp_new" name="new_password" type="password" class="form-control" minlength="8" autocomplete="new-password" required></div>
+                    <div class="mb-1"><label class="form-label" for="dp_confirm">Confirm new password</label><input id="dp_confirm" name="new_password_confirmation" type="password" class="form-control" minlength="8" autocomplete="new-password" required></div>
+                </div>
+                <div class="modal-footer"><button type="submit" form="logout-from-modal" class="btn btn-outline-secondary">Sign Out</button><button type="submit" class="btn btn-primary">Change password</button></div>
+            </form>
+            <form id="logout-from-modal" method="POST" action="{{ route('logout') }}" class="d-none">@csrf</form>
+        </div></div>
+    </div>
+    @endif
     @stack('scripts')
     @vite(['resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    @if (session('must_change_password'))<script>window.addEventListener('load',function(){new bootstrap.Modal(document.getElementById('defaultPasswordModal')).show();});</script>@endif
 </body>
 </html>

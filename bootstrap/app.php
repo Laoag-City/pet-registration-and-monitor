@@ -11,6 +11,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Trust only explicitly configured proxies (TRUSTED_PROXIES, comma-separated IPs/CIDRs).
+        $trusted = array_filter(array_map('trim', explode(',', (string) env('TRUSTED_PROXIES', ''))));
+        if ($trusted !== []) {
+            $middleware->trustProxies(at: $trusted);
+        }
+
+        $middleware->web(append: [\App\Http\Middleware\SecurityHeaders::class]);
+
         $middleware->alias([
             'role' => \App\Http\Middleware\EnsureRole::class,
         ]);

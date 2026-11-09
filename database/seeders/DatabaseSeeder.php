@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Test User',
                 'contact_number' => '0000-000-0000',
                 'date_of_birth' => '1990-01-01',
-                'password' => 'password',
+                'password' => User::DEFAULT_PASSWORD,
                 'role' => User::ROLE_USER,
             ],
         );
@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'PawID Admin',
                 'contact_number' => '0000-000-0000',
                 'date_of_birth' => '1990-01-01',
-                'password' => 'password',
+                'password' => User::DEFAULT_PASSWORD,
                 'role' => User::ROLE_ADMIN,
             ],
         );
@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'OCV Staff',
                 'contact_number' => '0000-000-0000',
                 'date_of_birth' => '1990-01-01',
-                'password' => 'password',
+                'password' => User::DEFAULT_PASSWORD,
                 'role' => User::ROLE_STAFF,
             ],
         );

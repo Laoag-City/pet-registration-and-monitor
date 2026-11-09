@@ -27,6 +27,8 @@ class User extends Authenticatable
         'role',
     ];
 
+    public const DEFAULT_PASSWORD = 'password';
+
     public const ROLE_USER = 'user';
     public const ROLE_STAFF = 'staff';
     public const ROLE_ADMIN = 'admin';
@@ -79,5 +81,13 @@ class User extends Authenticatable
             'date_of_birth' => 'date',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Whether the account still uses the well-known seeded demo password.
+     */
+    public function usesDefaultPassword(): bool
+    {
+        return \Illuminate\Support\Facades\Hash::check(self::DEFAULT_PASSWORD, $this->password);
     }
 }
