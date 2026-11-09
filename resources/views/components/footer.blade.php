@@ -10,6 +10,7 @@
                 <span class="brand-text">PawID</span>
             </div>
             <p class="footer-tagline">QR-Based Pet Registration and Medical Record System</p>
+            <p class="footer-tagline">{{ config('app.organization') }}, {{ config('app.government') }}</p>
         </div>
 
         <div class="footer-links">
@@ -20,6 +21,6 @@
         </div>
     </div>
     <div class="container footer-meta">
-        <p>© 2026 PawID. All rights reserved.</p>
+        <p>© 2026 {{ config('app.organization') }}, {{ config('app.government') }}. All rights reserved.</p>
     </div>
 </footer>

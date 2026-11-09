@@ -29,7 +29,7 @@
       @if ($pets->isEmpty())
         <div class="text-center py-5">
           <p class="text-muted mb-3">No pets registered yet.</p>
-          <p class="record-meta">Pets are registered by the Office of City Vet (OCV) staff on your behalf.</p>
+          <p class="record-meta">Pets are registered by the Office of the City Veterinarian (OCV) staff on your behalf.</p>
         </div>
       @else
         <p class="record-meta mb-3">{{ $pets->count() }} {{ Str::plural('pet', $pets->count()) }} registered to your account.</p>
