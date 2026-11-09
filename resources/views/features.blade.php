@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'PawID | Features')
+@section('title', 'Office of the City Veterinarian | Features')
 
 @section('content')
     <section class="page-section" id="features">
@@ -8,7 +8,7 @@
             <div class="section-heading section-heading--center">
                 <span class="eyebrow">Features</span>
                 <h2>Everything your pet needs, in one profile</h2>
-                <p>PawID keeps every record organized so veterinarians and finders can help your pet faster.</p>
+                <p>The Office of the City Veterinarian keeps every record organized so veterinarians and finders can help your pet faster.</p>
             </div>
             <div class="row g-4">
                 @foreach ([

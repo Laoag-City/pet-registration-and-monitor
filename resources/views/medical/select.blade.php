@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'PawID | '.($type === 'vaccinations' ? 'Add Vaccination' : 'Add Deworming'))
+@section('title', 'Office of the City Veterinarian | '.($type === 'vaccinations' ? 'Add Vaccination' : 'Add Deworming'))
 @section('content')
     <div class="container-fluid">
         <a href="{{ route($type.'.index') }}" class="small text-decoration-none">&larr; Back to {{ $type === 'vaccinations' ? 'Vaccinations' : 'Deworming' }}</a>

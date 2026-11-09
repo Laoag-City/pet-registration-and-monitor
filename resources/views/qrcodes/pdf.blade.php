@@ -16,7 +16,7 @@
 
     <div class="header">
         <div class="brand">{{ config('app.organization') }} &mdash; {{ config('app.government') }}</div>
-        <div class="brand">PawID &mdash; Pet Registration</div>
+        <div class="brand">Pet Registration</div>
         <h1>Pet Credential Card</h1>
     </div>
 

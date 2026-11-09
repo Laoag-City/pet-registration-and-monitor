@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="PawID, a service of the Office of the City Veterinarian, City Government of Laoag, helps pet owners register pets, manage medical records, and track QR-based pet identification." />
-        <title>@yield('title', 'PawID')</title>
+        <meta name="description" content="The Office of the City Veterinarian, City Government of Laoag, helps pet owners register pets, manage medical records, and track QR-based pet identification." />
+        <title>@yield('title', 'Office of the City Veterinarian')</title>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -1,5 +1,5 @@
 @extends('layouts.public')
-@section('title', 'PawID | Temporarily Unavailable')
+@section('title', 'Office of the City Veterinarian | Temporarily Unavailable')
 @section('content')
     <section class="container py-5">
         <div class="card border-0 shadow-sm rounded-4 p-4 mx-auto" style="max-width:560px">

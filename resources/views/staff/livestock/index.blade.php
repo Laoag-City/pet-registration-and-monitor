@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'PawID | '.$title)
+@section('title', 'Office of the City Veterinarian | '.$title)
 @section('content')
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
         <div><div class="page-kicker">Livestock field services</div><h1 class="page-title mb-1">{{ $title }}</h1><p class="text-muted mb-0">Manage livestock visits and field-service records.</p></div>

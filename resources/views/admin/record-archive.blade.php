@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'PawID | Record Archive')
+@section('title', 'Office of the City Veterinarian | Record Archive')
 @section('content')
 <h1 class="page-title">Record Archive</h1>
 <p class="text-muted">Restore an accidentally deleted record with a reason. Restoring a dated medical record may make its reminder active again. No pet or owner is restored by this action.</p>

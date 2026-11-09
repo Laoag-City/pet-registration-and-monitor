@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @php $label = $type === 'vaccinations' ? 'Vaccination' : 'Deworming'; @endphp
-@section('title', 'PawID | Review '.$label.' Record')
+@section('title', 'Office of the City Veterinarian | Review '.$label.' Record')
 @section('content')
     <div class="container-fluid">
         <h1 class="page-title mb-4">Review {{ $label }} Record</h1>

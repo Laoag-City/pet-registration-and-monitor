@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'PawID | All Pets')
+@section('title', 'Office of the City Veterinarian | All Pets')
 @section('content')
  <div class="container-fluid">
     <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-end gap-3 mb-4">

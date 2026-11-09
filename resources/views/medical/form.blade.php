@@ -7,7 +7,7 @@
         $values['next_due_at'] = $record->next_due_at?->format('Y-m-d');
     }
 @endphp
-@section('title', 'PawID | '.($editing ? 'Edit ' : 'Add ').$label.' Record')
+@section('title', 'Office of the City Veterinarian | '.($editing ? 'Edit ' : 'Add ').$label.' Record')
 @section('content')
     <div class="container-fluid">
         <a href="{{ route($type.'.index') }}" class="small text-decoration-none">&larr; Back to {{ $type === 'vaccinations' ? 'Vaccinations' : 'Deworming' }}</a>

@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <title>@yield('title', config('app.name', 'PawID'))</title>
+    <title>@yield('title', config('app.organization'))</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
@@ -91,7 +91,7 @@
     <div class="d-flex">
         <aside class="app-sidebar d-none d-lg-flex flex-column justify-content-between p-3">
             <div>
-                <a class="d-flex align-items-center gap-2 mb-5 text-decoration-none" href="/dashboard"><span class="brand-mark"><img src="{{ asset('images/city vet.jpg') }}" alt=""></span><span><span class="brand-title d-block">PawID</span><span class="brand-subtitle d-block">{{ config('app.organization') }}</span><span class="brand-subtitle d-block">{{ config('app.government') }}</span></span></a>
+                <a class="d-flex align-items-center gap-2 mb-5 text-decoration-none" href="/dashboard"><span class="brand-mark"><img src="{{ asset('images/city vet.jpg') }}" alt=""></span><span><span class="brand-title d-block">{{ config('app.organization') }}</span><span class="brand-subtitle d-block">{{ config('app.government') }}</span></span></a>
                 <div class="sidebar-label px-2 mb-2">Workspace</div>
                 <nav class="app-nav nav flex-column gap-1">
                     @foreach ($navItems as $item)
@@ -131,7 +131,7 @@
             </div>
         </main>
     </div>
-    <div class="offcanvas offcanvas-start mobile-menu" tabindex="-1" id="mobileNavigation"><div class="offcanvas-header border-bottom"><div class="d-flex align-items-center gap-2"><span class="brand-mark"><img src="{{ asset('images/city vet.jpg') }}" alt=""></span><span><span class="brand-title d-block">PawID</span><span class="brand-subtitle d-block">{{ config('app.organization') }}</span><span class="brand-subtitle d-block">{{ config('app.government') }}</span></span></div><button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button></div><div class="offcanvas-body"><div class="d-flex align-items-center gap-2 mb-4 p-3 rounded" style="background:var(--brand-soft)"><span class="user-chip">{{ $initials }}</span><div class="text-truncate" style="min-width:0"><div class="small fw-semibold text-truncate">{{ $authUser?->name }}</div><div class="record-meta text-truncate">{{ $authUser?->email }}</div></div></div><nav class="app-nav nav flex-column gap-1">@foreach ($navItems as $item)<a class="nav-link {{ request()->routeIs(...$item['active']) ? 'active' : '' }}" href="{{ route($item['route']) }}"><i class="bi {{ $item['icon'] }}"></i>{{ $item['label'] }}</a>@endforeach</nav><form method="POST" action="{{ route('logout') }}" class="mt-3">@csrf<button type="submit" class="btn btn-outline-secondary btn-sm w-100"><i class="bi bi-box-arrow-right me-1"></i>Sign Out</button></form></div></div>
+    <div class="offcanvas offcanvas-start mobile-menu" tabindex="-1" id="mobileNavigation"><div class="offcanvas-header border-bottom"><div class="d-flex align-items-center gap-2"><span class="brand-mark"><img src="{{ asset('images/city vet.jpg') }}" alt=""></span><span><span class="brand-title d-block">{{ config('app.organization') }}</span><span class="brand-subtitle d-block">{{ config('app.government') }}</span></span></div><button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button></div><div class="offcanvas-body"><div class="d-flex align-items-center gap-2 mb-4 p-3 rounded" style="background:var(--brand-soft)"><span class="user-chip">{{ $initials }}</span><div class="text-truncate" style="min-width:0"><div class="small fw-semibold text-truncate">{{ $authUser?->name }}</div><div class="record-meta text-truncate">{{ $authUser?->email }}</div></div></div><nav class="app-nav nav flex-column gap-1">@foreach ($navItems as $item)<a class="nav-link {{ request()->routeIs(...$item['active']) ? 'active' : '' }}" href="{{ route($item['route']) }}"><i class="bi {{ $item['icon'] }}"></i>{{ $item['label'] }}</a>@endforeach</nav><form method="POST" action="{{ route('logout') }}" class="mt-3">@csrf<button type="submit" class="btn btn-outline-secondary btn-sm w-100"><i class="bi bi-box-arrow-right me-1"></i>Sign Out</button></form></div></div>
     @if (session('must_change_password'))
     <div class="modal fade" id="defaultPasswordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="defaultPasswordTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered"><div class="modal-content">

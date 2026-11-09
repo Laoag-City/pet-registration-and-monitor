@@ -28,11 +28,11 @@ class DatabaseSeeder extends Seeder
             ],
         );
 
-        // Default role accounts for PawID
+        // Default role accounts
         User::firstOrCreate(
             ['email' => 'admin@pawid.test'],
             [
-                'name' => 'PawID Admin',
+                'name' => 'OCV Admin',
                 'contact_number' => '0000-000-0000',
                 'date_of_birth' => '1990-01-01',
                 'password' => User::DEFAULT_PASSWORD,

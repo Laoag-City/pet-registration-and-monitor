@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'PawID | Add User')
+@section('title', 'Office of the City Veterinarian | Add User')
 @section('content')
   <div class="container-fluid">
     <a href="{{ route('admin.users') }}" class="small text-decoration-none">&larr; Back to User Management</a>

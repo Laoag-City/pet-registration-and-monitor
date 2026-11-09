@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'PawID | '.$title)
+@section('title', 'Office of the City Veterinarian | '.$title)
 @section('content')
     <a class="small text-decoration-none" href="{{ route('staff.'.$module.'.index') }}">&larr; Back to {{ $title }}</a>
     <h1 class="page-title mt-3 mb-4">{{ $record->exists ? 'Edit' : 'Add' }} {{ $title }} Record</h1>

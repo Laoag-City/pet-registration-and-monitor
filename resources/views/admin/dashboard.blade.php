@@ -1,12 +1,12 @@
 @extends('layouts.app')
-@section('title', 'PawID | Admin Dashboard')
+@section('title', 'Office of the City Veterinarian | Admin Dashboard')
 @section('content')
   <div class="container-fluid px-0">
     <div class="row mb-4 g-3">
       <div class="col">
         <div class="page-kicker">Administration</div>
         <h1 class="page-title mb-1">Welcome back, {{ $user->name }}</h1>
-        <p class="text-muted mb-0">PawID system management overview.</p>
+        <p class="text-muted mb-0">System management overview.</p>
       </div>
       <div class="col-12 col-md-auto d-flex align-items-end gap-2">
         <a href="{{ route('admin.users') }}" class="btn btn-outline-secondary btn-sm"><i

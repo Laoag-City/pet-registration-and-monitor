@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'PawID | Sign In')
+@section('title', 'Office of the City Veterinarian | Sign In')
 
 @section('content')
     <section class="auth-shell">

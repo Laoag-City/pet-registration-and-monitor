@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'PawID | QR-Based Pet Registration and Medical Record System')
+@section('title', 'Office of the City Veterinarian | QR-Based Pet Registration and Medical Record System')
 
 @section('content')
     {{-- Hero --}}
@@ -10,7 +10,7 @@
                 <div class="hero-copy">
                     <span class="eyebrow">QR-Based Pet Registration &amp; Medical Records</span>
                     <h1>Your pet's identity, always within reach.</h1>
-                    <p>Register your pet, keep their medical records organized, and give them a digital identity with PawID.</p>
+                    <p>Register your pet, keep their medical records organized, and give them a digital identity through the Office of the City Veterinarian.</p>
                     <div class="hero-actions">
                         <a href="{{ route('register') }}" class="btn btn-primary btn-primary--large">
                             <i class="bi bi-qr-code me-2"></i>Create Account

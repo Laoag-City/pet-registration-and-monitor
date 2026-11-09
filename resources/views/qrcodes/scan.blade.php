@@ -1,5 +1,5 @@
 @extends('layouts.public')
-@section('title', 'PawID | Pet Identification')
+@section('title', 'Office of the City Veterinarian | Pet Identification')
 @section('content')
     <section class="container py-5">
         <div class="row justify-content-center">

@@ -1,13 +1,13 @@
 @extends('layouts.public')
 
-@section('title', 'PawID | Create Account')
+@section('title', 'Office of the City Veterinarian | Create Account')
 
 @section('content')
     <section class="auth-shell">
         <div class="auth-card auth-card--single">
             <div class="auth-form-shell">
                 <h2>Create account</h2>
-                <p>Join PawID to keep all your pet records organized and easy to share.</p>
+                <p>Register with the Office of the City Veterinarian to keep all your pet records organized and easy to share.</p>
 
                 <form method="POST" action="{{ route('register.store') }}" class="form-grid">
                     @csrf

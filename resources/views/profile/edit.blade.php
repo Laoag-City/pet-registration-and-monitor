@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'PawID | Edit Profile')
+@section('title', 'Office of the City Veterinarian | Edit Profile')
 @section('content')
     <div class="container-fluid">
         <a href="{{ route('profile.show') }}" class="small text-decoration-none">&larr; Back to My Profile</a>

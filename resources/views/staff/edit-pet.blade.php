@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'PawID | Edit Pet')
+@section('title', 'Office of the City Veterinarian | Edit Pet')
 @section('content')
 <div class="container-fluid px-0">
     <h1 class="page-title mb-1">Edit Pet</h1>

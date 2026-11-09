@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'PawID | Staff Dashboard')
+@section('title', 'Office of the City Veterinarian | Staff Dashboard')
 @section('body-class', 'staff-dashboard-page')
 @push('styles')
     @vite(['resources/css/staff-dashboard.css'])

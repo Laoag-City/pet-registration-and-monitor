@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'PawID | Record Audit')
+@section('title', 'Office of the City Veterinarian | Record Audit')
 @section('content')
 <h1 class="page-title">Record Audit</h1>
 <p class="text-muted">Restricted record changes and recovery history. Actor IDs remain available even if an account is later removed. Earlier edits were not retroactively recorded.</p>

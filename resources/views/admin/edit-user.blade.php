@@ -4,7 +4,7 @@
       $errors = new \Illuminate\Support\ViewErrorBag;
   }
 @endphp
-@section('title', 'PawID | Edit User')
+@section('title', 'Office of the City Veterinarian | Edit User')
 @section('content')
  <div class="container-fluid">
     <a href="{{ route('admin.users') }}" class="small text-decoration-none">&larr; Back to User Management</a>
