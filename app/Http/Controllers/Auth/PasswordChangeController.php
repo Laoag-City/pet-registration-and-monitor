@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PasswordChangeController extends Controller
 {
@@ -16,8 +17,10 @@ class PasswordChangeController extends Controller
         ]);
 
         $request->user()->update(['password' => $validated['new_password']]);
+        // Invalidates other sessions and remember-me tokens.
+        Auth::logoutOtherDevices($validated['new_password']);
         $request->session()->regenerate();
-        $request->session()->forget('must_change_password');
+        $request->session()->put('must_change_password', false);
 
         return back()->with('status', 'Your password has been changed.');
     }

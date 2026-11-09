@@ -5,6 +5,7 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -88,6 +89,6 @@ class User extends Authenticatable
      */
     public function usesDefaultPassword(): bool
     {
-        return \Illuminate\Support\Facades\Hash::check(self::DEFAULT_PASSWORD, $this->password);
+        return Hash::check(self::DEFAULT_PASSWORD, $this->password);
     }
 }

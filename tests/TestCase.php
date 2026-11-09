@@ -6,6 +6,21 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
+    /**
+     * Factory users share the default password, so the forced-change redirect
+     * is off unless a test opts in.
+     */
+    protected bool $enforcePasswordChange = false;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        if (! $this->enforcePasswordChange) {
+            $this->withoutMiddleware(\App\Http\Middleware\EnforcePasswordChange::class);
+        }
+    }
+
     public function createApplication()
     {
         $app = parent::createApplication();

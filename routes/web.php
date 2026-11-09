@@ -48,7 +48,7 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name
 
 // Shared authenticated routes (read-only for pet owners, richer for staff/admin)
 Route::middleware(['auth', 'auth.session', \App\Http\Middleware\ShareReminderCount::class])->group(function () {
-    Route::put('/password', [\App\Http\Controllers\Auth\PasswordChangeController::class, 'update'])->name('password.change');
+    Route::put('/password', [\App\Http\Controllers\Auth\PasswordChangeController::class, 'update'])->middleware('throttle:6,1')->name('password.change');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/mypets', [PetController::class, 'index'])->name('pets.index');
     Route::get('/pets/{pet}', [PetController::class, 'show'])->name('pets.show');

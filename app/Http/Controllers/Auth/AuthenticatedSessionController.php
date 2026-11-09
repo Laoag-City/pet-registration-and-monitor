@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +31,7 @@ class AuthenticatedSessionController extends Controller
         }
 
         $request->session()->regenerate();
-        $request->session()->put('must_change_password', $request->user()->usesDefaultPassword());
+        $request->session()->put('must_change_password', $credentials['password'] === User::DEFAULT_PASSWORD);
 
         return redirect()->intended(route('dashboard'));
     }
