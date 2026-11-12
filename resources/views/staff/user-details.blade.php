@@ -13,6 +13,7 @@
         <div class="col-6 col-md-3"><div class="small text-muted">Email</div><div>{{ $client->email }}</div></div>
         <div class="col-6 col-md-3"><div class="small text-muted">Contact number</div><div>{{ $client->contact_number ?? 'Not provided' }}</div></div>
         <div class="col-6 col-md-3"><div class="small text-muted">Date of birth</div><div>{{ $client->date_of_birth?->format('M d, Y') ?? 'Not provided' }}</div></div>
+        <div class="col-6 col-md-3"><div class="small text-muted">Address / Barangay (Laoag City)</div><div>{{ $client->barangay ?? 'Not Provided' }}</div></div>
         <div class="col-6 col-md-3"><div class="small text-muted">Registered</div><div>{{ $client->created_at->format('M d, Y') }}</div></div>
       </div>
     </div>
@@ -37,6 +38,7 @@
                   </div>
                 </div>
                 <div class="record-meta mb-2">
+                  Receipt Number: {{ $pet->receipt_number ?? 'Not Provided' }}<br>
                   DOB: {{ $pet->date_of_birth?->format('M d, Y') ?? 'Not specified' }}<br>
                   Vaccinations: {{ $pet->vaccinations->count() }} &middot; Deworming: {{ $pet->dewormingRecords->count() }}
                 </div>

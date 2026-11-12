@@ -20,6 +20,7 @@ class RegisteredUserController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'barangay' => ['nullable', \Illuminate\Validation\Rule::in(\App\Support\LaoagBarangays::labels())],
             'contact_number' => ['required', 'string', 'max:40'],
             'date_of_birth' => ['required', 'date', 'before_or_equal:today'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],

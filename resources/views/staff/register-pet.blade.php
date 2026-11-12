@@ -77,8 +77,11 @@
             <div class="col-md-6"><label class="form-label">Color</label><input name="color" value="{{ old('color') }}"
                 class="form-control"></div>
 
-            <div class="col-md-6"><label class="form-label">Photo</label><input name="photo" type="file" accept="image/*"
+          </div>
+          <div class="row g-3 mt-0">
+            <div class="col-12 col-md-6"><label class="form-label" for="photo">Pet Photo</label><input id="photo" name="photo" type="file" accept="image/*"
                 class="form-control"></div>
+            @include('staff.receipt-number')
           </div>
           <div class="mt-4"><button class="btn btn-brand" type="submit"><i class="bi bi-check-lg me-1"></i>Register
               Pet</button></div>

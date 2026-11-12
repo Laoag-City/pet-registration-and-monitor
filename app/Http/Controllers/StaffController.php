@@ -41,7 +41,7 @@ class StaffController extends Controller
 
     public function updatePet(\App\Http\Requests\UpdatePetRequest $request, Pet $pet): RedirectResponse
     {
-        $values = $request->safe()->only(['name', 'species', 'breed', 'sex', 'date_of_birth', 'color']);
+        $values = $request->safe()->only(['name', 'species', 'breed', 'sex', 'date_of_birth', 'color', 'receipt_number']);
         $values['species'] = \App\Support\PetSpecies::stored($request->validated());
         if ($request->hasFile('photo')) {
             $values['photo_path'] = $request->file('photo')->store('pet-photos', 'public');
@@ -69,8 +69,8 @@ class StaffController extends Controller
                         ->orWhereLike('contact_number', "%{$search}%");
                 });
             })
-            ->orderBy('name')
-            ->paginate(12)
+            ->orderBy('name')->orderBy('id')
+            ->paginate(10)
             ->withQueryString();
 
         return view('staff.users', ['users' => $users, 'search' => $search]);
@@ -110,8 +110,8 @@ class StaffController extends Controller
                 });
             })
             ->when($species !== '', fn($q) => $q->whereRaw('LOWER(TRIM(species)) = ?', [mb_strtolower($species)]))
-            ->orderBy('name')
-            ->paginate(15)
+            ->orderBy('name')->orderBy('id')
+            ->paginate(10)
             ->withQueryString();
 
         return view('staff.pets', [
@@ -154,6 +154,7 @@ class StaffController extends Controller
             'sex' => ['required', Rule::in(['Male', 'Female'])],
             'date_of_birth' => ['nullable', 'date', 'before_or_equal:today'],
             'color' => ['nullable', 'string', 'max:80'],
+            'receipt_number' => ['nullable', 'string', 'max:100'],
             'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         ]);
 
@@ -173,6 +174,7 @@ class StaffController extends Controller
             'sex' => $validated['sex'],
             'date_of_birth' => $validated['date_of_birth'] ?? null,
             'color' => $validated['color'] ?? null,
+            'receipt_number' => $validated['receipt_number'] ?? null,
             'owner_name' => $owner->name,
             'owner_email' => $owner->email,
             'owner_number' => $owner->contact_number ?? '',
