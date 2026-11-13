@@ -38,8 +38,8 @@ class AdminController extends Controller
                 });
             })
             ->when(in_array($role, [User::ROLE_USER, User::ROLE_STAFF, User::ROLE_ADMIN], true), fn($q) => $q->where('role', $role))
-            ->orderBy('name')
-            ->paginate(12)
+            ->orderBy('name')->orderBy('id')
+            ->paginate(10)
             ->withQueryString();
 
         return view('admin.users', ['users' => $users, 'search' => $search, 'roleFilter' => $role]);

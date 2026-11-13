@@ -34,6 +34,17 @@
                     </div>
 
                     <div class="field-group">
+                        <label for="barangay" class="form-label">Address / Barangay (Laoag City)</label>
+                        <select id="barangay" name="barangay" class="form-select @error('barangay') is-invalid @enderror">
+                            <option value="">Select Barangay</option>
+                            @foreach(\App\Support\LaoagBarangays::options() as $code => $label)
+                                <option value="{{ $label }}" data-psgc="{{ $code }}" @selected(old('barangay') === $label)>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                        @error('barangay')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+
+                    <div class="field-group">
                         <label for="date_of_birth">Date of birth</label>
                         <input id="date_of_birth" name="date_of_birth" type="date" value="{{ old('date_of_birth') }}" max="{{ now()->toDateString() }}" required />
                         <small class="field-hint">Must not be a future date.</small>

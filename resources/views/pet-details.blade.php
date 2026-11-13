@@ -31,6 +31,7 @@
         <div class="col-6 col-md-3"><div class="small text-muted">Breed</div><div>{{ $pet->breed ?? 'Not specified' }}</div></div>
         <div class="col-6 col-md-3"><div class="small text-muted">Sex</div><div>{{ $pet->sex }}</div></div>
         <div class="col-6 col-md-3"><div class="small text-muted">Date of Birth</div><div>{{ $pet->date_of_birth?->format('M d, Y') ?? 'Not specified' }}</div></div>
+        <div class="col-6 col-md-3"><div class="small text-muted">Receipt Number</div><div>{{ $pet->receipt_number ?? 'Not Provided' }}</div></div>
         <div class="col-6 col-md-3"><div class="small text-muted">Color</div><div>{{ $pet->color ?? 'Not specified' }}</div></div>
       </div>
     </div>

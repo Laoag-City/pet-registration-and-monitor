@@ -11,7 +11,7 @@ class Pet extends Model
 {
     use HasFactory, \Illuminate\Database\Eloquent\SoftDeletes;
 
-    protected $fillable = ['name', 'species', 'breed', 'sex', 'date_of_birth', 'color', 'photo_path', 'owner_name', 'owner_email', 'owner_number'];
+    protected $fillable = ['name', 'species', 'breed', 'sex', 'date_of_birth', 'color', 'receipt_number', 'photo_path', 'owner_name', 'owner_email', 'owner_number'];
 
     // Serialize only supported fields and relationships, excluding obsolete storage columns.
     protected $visible = [
