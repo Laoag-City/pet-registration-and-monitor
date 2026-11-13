@@ -1,0 +1,46 @@
+name: Deploy
+
+# Runs after CI succeeds on main, or manually. Requires the "production"
+# environment with the secrets listed in docs/ci-cd.md.
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    steps:
+      - name: Configure SSH
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+
+      - name: Deploy
+        env:
+          HOST: ${{ secrets.DEPLOY_HOST }}
+          USER_NAME: ${{ secrets.DEPLOY_USER }}
+          APP_DIR: ${{ vars.DEPLOY_PATH || '/srv/pawid/current' }}
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes "$USER_NAME@$HOST" \
+            "cd '$APP_DIR' && bash scripts/deploy.sh"
+
+      - name: Health check
+        run: curl --fail --silent --show-error --retry 5 --retry-delay 5 "${{ vars.DEPLOY_URL || 'https://pets.laoagcity.gov.ph' }}/up" -o /dev/null
